@@ -15,7 +15,6 @@ function App() {
       .then(response => response.json())
       .then(data => {
         setPeopleList(data.documents)
-        console.log(data.documents)
       })
 
   }, []);
