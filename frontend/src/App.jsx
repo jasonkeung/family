@@ -1,33 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { createContext, useContext, useEffect, useState } from 'react'
+import Box from '@mui/joy/Box'
 import './App.css'
+import { Person } from './Person';
+import { PersonForm } from './PersonForm';
+
+export const PeopleContext = createContext();
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [peopleList, setPeopleList] = useState([]);
+
+  useEffect(() => {
+    fetch("https://firestore.googleapis.com/v1/projects/family-81dc0/databases/(default)/documents/people/")
+      .then(response => response.json())
+      .then(data => {
+        setPeopleList(data.documents)
+        console.log(data.documents)
+      })
+
+  }, []);
+
+  console.log(peopleList)
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <Box sx={{ padding: "50px", bgcolor: "primary.600", borderRadius: "20px"}}>
+            Add a new person
+            <PeopleContext.Provider value={{peopleList, setPeopleList}}>
+                <PersonForm/>
+            </PeopleContext.Provider>
+        </Box>
+        <br/>
+        {peopleList.map(person => <Person key={person.name} fields={person.fields}/>)}
     </>
   )
 }
