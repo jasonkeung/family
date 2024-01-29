@@ -7,32 +7,32 @@ import { PersonForm } from './PersonForm';
 export const PeopleContext = createContext();
 
 function App() {
-
-  const [peopleList, setPeopleList] = useState([]);
+  const [peopleMap, setPeopleMap] = useState({});
 
   useEffect(() => {
     fetch("https://firestore.googleapis.com/v1/projects/family-81dc0/databases/(default)/documents/people/")
       .then(response => response.json())
       .then(data => {
-        setPeopleList(data.documents)
-        console.log(data.documents)
+        var newPeopleMap = {}
+        data.documents.forEach(document => {
+            newPeopleMap[document.name] = document;
+        })
+        setPeopleMap(newPeopleMap);
       })
 
   }, []);
 
-  console.log(peopleList)
-
 
   return (
     <>
-        <Box sx={{ padding: "50px", bgcolor: "primary.600", borderRadius: "20px"}}>
-            Add a new person
-            <PeopleContext.Provider value={{peopleList, setPeopleList}}>
+        <PeopleContext.Provider value={{peopleMap, setPeopleMap}}>
+            <Box sx={{ padding: "50px", bgcolor: "primary.600", borderRadius: "20px"}}>
+                Add a new person
                 <PersonForm/>
-            </PeopleContext.Provider>
-        </Box>
-        <br/>
-        {peopleList.map(person => <Person key={person.name} fields={person.fields}/>)}
+            </Box>
+            <br/>
+            {Object.values(peopleMap).map(person => <Person key={person.name} fields={person.fields}/>)}
+        </PeopleContext.Provider>
     </>
   )
 }
