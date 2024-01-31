@@ -2,12 +2,12 @@ import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import { useContext } from 'react';
-import { PeopleContext } from './App';
+import { AppContext } from './App';
 export const FIELDS = ["fullName"];
 
 
 export function Person(props) {
-    const {peopleMap} = useContext(PeopleContext)
+    const {peopleMap} = useContext(AppContext)
     const fields = props.fields;
     const mother = peopleMap[fields?.mother?.referenceValue]
     const father = peopleMap[fields?.father?.referenceValue]

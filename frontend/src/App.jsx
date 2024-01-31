@@ -4,7 +4,7 @@ import './App.css'
 import { Person } from './Person';
 import { PersonForm } from './PersonForm';
 
-export const PeopleContext = createContext();
+export const AppContext = createContext();
 
 function App() {
   const [peopleMap, setPeopleMap] = useState({});
@@ -25,14 +25,14 @@ function App() {
 
   return (
     <>
-        <PeopleContext.Provider value={{peopleMap, setPeopleMap}}>
+        <AppContext.Provider value={{peopleMap, setPeopleMap}}>
             <Box sx={{ padding: "50px", bgcolor: "primary.600", borderRadius: "20px"}}>
                 Add a new person
                 <PersonForm/>
             </Box>
             <br/>
             {Object.values(peopleMap).map(person => <Person key={person.name} fields={person.fields}/>)}
-        </PeopleContext.Provider>
+        </AppContext.Provider>
     </>
   )
 }
