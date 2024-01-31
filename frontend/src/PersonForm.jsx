@@ -3,16 +3,14 @@ import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import ListDivider from '@mui/joy/ListDivider';
 import Input from '@mui/joy/Input';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 
-import { PeopleContext } from './App';
+import { AppContext } from './App';
 
 
 export function PersonForm() {
-    const { peopleMap, setPeopleMap } = useContext(PeopleContext);
+    const { peopleMap, setPeopleMap } = useContext(AppContext);
 
     const [fullName, setFullName] = useState("");
     const [mother, setMother] = useState("");
